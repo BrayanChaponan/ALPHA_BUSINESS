@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.2//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.alphabuss.backoffice.dao.RepresentativeMapper">
+	
+	<resultMap type="representante" id="representativeRM">
+		<id property="representativeId" column="idRepresentante"/>
+		<result property="firstName" column="RepresentanteNombres"/>
+		<result property="lastName" column="RepresentanteApellidos"/>
+		<result property="email" column="RepresentanteCorreo"/>
+		<result property="status" column="RepresentanteEstado"/>
+		<association property="empresa" column="Empresa_EmpresaRUC" resultMap="empresaRM"/>
+	</resultMap>
+	
+	<resultMap type="empresa" id="empresaRM">
+		<id property="ruc" column="EmpresaRUC"/>
+		<result property="razonSocial" column="EmpresaRazonSocial"/>
+	</resultMap>
+	
+	<select id="representativesList" resultMap="representativeRM">		
+		SELECT 
+			r.idRepresentante,
+		    r.RepresentanteNombres,
+		    r.RepresentanteApellidos,
+		    r.RepresentanteCorreo,
+		    r.RepresentanteEstado,
+		    r.DatetimeIns,
+		    e.EmpresaRUC,
+		    e.EmpresaRazonSocial
+		FROM 
+			Representante r INNER JOIN Empresa e on r.Empresa_EmpresaRUC = e.EmpresaRUC	
+	</select>
+	
+	<select id="getRepresentative" parameterType="representante" resultMap="representativeRM">
+		SELECT 
+			r.idRepresentante,
+		    r.RepresentanteNombres,
+		    r.RepresentanteApellidos,
+		    r.RepresentanteCorreo,
+		    r.RepresentanteEstado,
+		    r.DatetimeIns,
+		    e.EmpresaRUC,
+		    e.EmpresaRazonSocial
+		FROM 
+			Representante r INNER JOIN Empresa e on r.Empresa_EmpresaRUC = e.EmpresaRUC		
+		WHERE
+			r.idRepresentante = #{representativeId}
+	</select>
+	
+	<insert id="representativeRegister" parameterType="representante" flushCache="true"
+		useGeneratedKeys="true" keyProperty="representativeId">
+		INSERT INTO 
+			Representante
+				(RepresentanteNombres,
+				RepresentanteApellidos,
+				RepresentanteCorreo,
+				RepresentanteEstado,
+				DatetimeIns,
+				Empresa_EmpresaRUC)
+			VALUES
+				(#{firstName},
+				#{lastName},
+				#{email},
+				#{status},
+				NOW(),
+				#{empresa.ruc})		
+	</insert>
+	
+	<update id="representativeUpdate" parameterType="representante" flushCache="true">
+		UPDATE
+			Representante
+		SET
+			RepresentanteNombres = #{firstName},
+			RepresentanteApellidos = #{lastName},
+			RepresentanteCorreo = #{email},
+			RepresentanteEstado = #{status},
+			Empresa_EmpresaRUC = #{empresa.ruc}
+		WHERE
+			idRepresentante = #{representativeId}
+	</update>
+
+</mapper>

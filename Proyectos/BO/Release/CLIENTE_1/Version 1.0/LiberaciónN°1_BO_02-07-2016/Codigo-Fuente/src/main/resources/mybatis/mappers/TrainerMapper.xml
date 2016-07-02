@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.2//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.alphabuss.backoffice.dao.TrainerMapper">
+	
+	<resultMap type="capacitador" id="trainerRM">
+		<id property="capacitadorId" column="idCapacitador"/>
+		<result property="firstName" column="CapacitadorNombre"/>
+		<result property="lastName" column="CapacitadorApellidos"/>
+		<result property="email" column="CapacitadorCorreo"/>
+		<result property="address" column="CapacitadorDireccion"/>
+		<result property="mobilePhone" column="CapacitadorMovil"/>
+		<result property="homePhone" column="CapacitadorFijo"/>
+		<result property="status" column="CapacitadorEstado"/>
+	</resultMap>
+	
+	<select id="trainersList" resultMap="trainerRM">		
+		SELECT 
+			c.idCapacitador,
+		    c.CapacitadorNombre,
+		    c.CapacitadorApellidos,
+		    c.CapacitadorCorreo,
+		    c.CapacitadorDireccion,
+		    c.CapacitadorMovil,
+		    c.CapacitadorFijo,
+		    c.CapacitadorEstado
+		FROM 
+			Capacitador c
+	</select>
+	
+	<select id="getTrainer" parameterType="capacitador" resultMap="trainerRM">
+		SELECT 
+			c.idCapacitador,
+		    c.CapacitadorNombre,
+		    c.CapacitadorApellidos,
+		    c.CapacitadorCorreo,
+		    c.CapacitadorDireccion,
+		    c.CapacitadorMovil,
+		    c.CapacitadorFijo,
+		    c.CapacitadorEstado
+		FROM 
+			Capacitador c
+		WHERE
+			c.idCapacitador = #{capacitadorId}
+	</select>
+	
+	<insert id="trainerRegister" parameterType="capacitador" flushCache="true"
+		useGeneratedKeys="true" keyProperty="capacitadorId">
+		INSERT INTO 
+			Capacitador
+				(CapacitadorNombre,
+				CapacitadorApellidos,
+				CapacitadorCorreo,
+				CapacitadorDireccion,
+				CapacitadorMovil,
+				CapacitadorFijo,
+				CapacitadorEstado)
+			VALUES
+				(#{firstName},
+				#{lastName},
+				#{email},
+				#{address},
+				#{mobilePhone},
+				#{homePhone},
+				#{status})
+	</insert>
+	
+	<update id="trainerUpdate" parameterType="capacitador" flushCache="true">
+		UPDATE
+			Capacitador
+		SET
+			CapacitadorNombre = #{firstName},
+			CapacitadorApellidos = #{lastName},
+			CapacitadorCorreo = #{email},
+			CapacitadorDireccion = #{address},
+			CapacitadorMovil = #{mobilePhone},
+			CapacitadorFijo = #{homePhone},
+			CapacitadorEstado = #{status}
+		WHERE
+			idCapacitador = #{capacitadorId}
+	</update>
+
+</mapper>

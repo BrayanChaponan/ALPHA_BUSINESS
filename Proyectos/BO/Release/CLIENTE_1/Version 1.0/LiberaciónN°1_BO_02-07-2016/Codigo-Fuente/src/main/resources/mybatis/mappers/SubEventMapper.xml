@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.2//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.alphabuss.backoffice.dao.SubEventMapper">
+	
+	<resultMap type="subEvento" id="subEventRM">
+		<id property="subEventId" column="idEventosxCurso"/>
+		<result property="dateStart" column="FechaStart"/>
+		<result property="dateEnd" column="FechaEnd"/>		
+		<association property="evento" column="Evento_idEvento" resultMap="eventRM"/>
+		<association property="curso" column="Curso_idCurso" resultMap="courseRM"/>
+		<association property="capacitador" column="Capacitador_idCapacitador" resultMap="trainerRM"/>
+	</resultMap>
+	
+	<resultMap type="evento" id="eventRM">
+		<id property="eventId" column="	idEvento"/>
+		<result property="name" column="EventoNombre"/>
+		<result property="quotasTotal" column="EventoCuposTotal"/>
+		<result property="quotasRegistered" column="EventoInscritos"/>
+		<result property="quotasAvailable" column="EventoDisponible"/>
+	</resultMap>
+	
+	<resultMap type="curso" id="courseRM">
+		<id property="courseId" column="idCurso"/>
+		<result property="name" column="CursoNom"/>
+		<result property="description" column="CursoDesc"/>
+		<result property="price" column="CursoPrecio"/>
+		<result property="status" column="CursoEstado"/>
+	</resultMap>
+	
+	<resultMap type="capacitador" id="trainerRM">
+		<id property="capacitadorId" column="idCapacitador"/>
+		<result property="firstName" column="CapacitadorNombre"/>
+		<result property="lastName" column="CapacitadorApellidos"/>
+		<result property="email" column="CapacitadorCorreo"/>
+		<result property="address" column="CapacitadorDireccion"/>
+		<result property="mobilePhone" column="CapacitadorMovil"/>
+		<result property="homePhone" column="CapacitadorFijo"/>
+		<result property="status" column="CapacitadorEstado"/>
+	</resultMap>
+	
+	<select id="subEventsList" parameterType="evento" resultMap="subEventRM">		
+		SELECT 
+			ec.idEventosxCurso,
+            e.idEvento, e.EventoNombre,
+			c.idCurso, c.CursoNom, 
+            ca.idCapacitador, ca.CapacitadorNombre,
+        	date(ec.FechaStart) as FechaStart, date(ec.FechaEnd) as FechaEnd
+ 		FROM 
+ 			EventosXCurso ec
+            inner join Evento e on ec.Evento_idEvento = e.idEvento
+			inner join Curso c on ec.Curso_idCurso = c.idCurso
+			inner join Capacitador ca on ec.Capacitador_idCapacitador = ca.idCapacitador            
+        WHERE
+        	e.idEvento = #{eventId}
+	</select>
+	
+	<select id="getSubEvent" parameterType="subEvento" resultMap="subEventRM">
+		SELECT 
+			ec.idEventosxCurso,
+            e.idEvento, e.EventoNombre,
+			c.idCurso, c.CursoNom, 
+            ca.idCapacitador, ca.CapacitadorNombre,
+            date(ec.FechaStart) as FechaStart, date(ec.FechaEnd) as FechaEnd
+ 		FROM 
+ 			EventosXCurso ec
+            inner join Evento e on ec.Evento_idEvento = e.idEvento
+			inner join Curso c on ec.Curso_idCurso = c.idCurso
+			inner join Capacitador ca on ec.Capacitador_idCapacitador = ca.idCapacitador            
+        WHERE
+        	ec.idEventosxCurso = #{subEventId}
+	</select>
+	
+	<insert id="subEventRegister" parameterType="subEvento" flushCache="true">
+		INSERT INTO
+			EventosXCurso(
+				Curso_idCurso, 
+				Evento_idEvento, 
+				Capacitador_idCapacitador, 
+				FechaStart, 
+				FechaEnd)
+		VALUES (
+				#{curso.courseId},
+				#{evento.eventId},
+				#{capacitador.capacitadorId},
+				#{dateStart},
+				#{dateEnd})			
+	</insert>
+	
+	<update id="subEventUpdate" parameterType="subEvento" flushCache="true">
+		UPDATE
+			EventosXCurso
+		SET
+			Curso_idCurso = #{curso.courseId},
+			Capacitador_idCapacitador = #{capacitador.capacitadorId},
+			FechaStart = #{dateStart},
+			FechaEnd = #{dateEnd}
+		WHERE
+			idEventosxCurso = #{subEventId}
+	</update>
+
+</mapper>
