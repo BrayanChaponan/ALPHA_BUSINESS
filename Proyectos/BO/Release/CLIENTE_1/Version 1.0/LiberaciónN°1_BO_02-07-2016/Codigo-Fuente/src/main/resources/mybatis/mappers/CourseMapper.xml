@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.2//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.alphabuss.backoffice.dao.CourseMapper">
+	
+	
+	<select id="coursesList" resultType="curso">		
+		SELECT 
+			c.idCurso as courseId,
+			c.CursoNom as name,
+	    	c.CursoDesc as description,
+    		c.CursoPrecio as price,
+    		c.CursoEstado as status
+		FROM 
+			Curso c
+	</select>
+	
+	<select id="getCourse" parameterType="curso" resultType="curso">
+		SELECT 
+			c.idCurso as courseId,
+			c.CursoNom as name,
+	    	c.CursoDesc as description,
+    		c.CursoPrecio as price,
+    		c.CursoEstado as status
+		FROM 
+			Curso c
+		WHERE
+			c.idCurso = #{courseId}
+	</select>
+	
+	<select id="validateRegisteredCourseName" parameterType="curso" resultType="curso">
+		SELECT 
+			c.idCurso as courseId,
+	    	c.CursoNom as name
+		FROM 
+			Curso c
+    	WHERE
+    		c.CursoNom = #{name}
+	</select>
+	
+	<insert id="courseRegister" parameterType="curso" flushCache="true"
+		useGeneratedKeys="true" keyProperty="courseId">
+		INSERT INTO
+			Curso(CursoNom, CursoDesc, CursoPrecio, CursoEstado, DatetimeIns)
+		VALUES
+			(#{name}, #{description}, #{price}, #{status}, NOW())
+	</insert>
+	
+	<update id="courseUpdate" parameterType="curso" flushCache="true">
+		UPDATE
+			Curso
+		SET
+			CursoNom = #{name},
+			CursoDesc = #{description},
+			CursoPrecio = #{price},
+			CursoEstado = #{status}
+		WHERE
+			idCurso = #{courseId}
+	</update>
+
+</mapper>

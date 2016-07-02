@@ -1,0 +1,68 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+	<div id="sidebar" class="sidebar">
+		<div class="sidebar-menu nav-collapse">
+			<!-- SIDEBAR MENU -->
+			<ul>
+				<li id="menuMaintenances" class="has-sub"><a
+					href="javascript:;"> <i class="fa fa-pencil-square-o"></i> <span
+						class="menu-text">#{i18n['menu.label.maintenances']}</span> <span
+						class="arrow"></span>
+				</a>
+					<ul class="sub">
+						<li id="menuUsersMaintenance"><a
+							jsf:outcome="/pages/secured/maintenances/userMaintenance"> <span
+								class="sub-menu-text">#{i18n['menu.label.userMaintenance']}</span>
+						</a></li>
+						<li id="menuRoleMaintenance"><a
+							jsf:outcome="/pages/secured/maintenances/roleMaintenance"> <span
+								class="sub-menu-text">#{i18n['menu.label.roleMaintenance']}</span>
+						</a></li>
+						<li id="menuCourseMaintenance"><a
+							jsf:outcome="/pages/secured/maintenances/courseMaintenance">
+								<span class="sub-menu-text">#{i18n['menu.label.courseMaintenance']}</span>
+						</a></li>
+						<li id="menuEmployeeMaintenance"><a
+							jsf:outcome="/pages/secured/maintenances/employeeMaintenance">
+								<span class="sub-menu-text">#{i18n['menu.label.employeeMaintenance']}</span>
+						</a></li>
+						<li id="menuCargoMaintenance"><a
+							jsf:outcome="/pages/secured/maintenances/cargoMaintenance"> <span
+								class="sub-menu-text">#{i18n['menu.label.cargoMaintenance']}</span>
+						</a></li>
+						<li id="menuTrainerMaintenance"><a
+							jsf:outcome="/pages/secured/maintenances/trainerMaintenance">
+								<span class="sub-menu-text">#{i18n['menu.label.trainerMaintenance']}</span>
+						</a></li>
+						<li id="menuRepresentativeMaintenance"><a
+							jsf:outcome="/pages/secured/maintenances/representativeMaintenance">
+								<span class="sub-menu-text">#{i18n['menu.label.representativeMaintenance']}</span>
+						</a></li>
+						<li id="menuCompanyMaintenance"><a
+							jsf:outcome="/pages/secured/maintenances/companyMaintenance">
+								<span class="sub-menu-text">#{i18n['menu.label.companyMaintenance']}</span>
+						</a></li>
+					</ul></li>
+
+				<li id="menuProcesses" class="has-sub"><a href="javascript:;">
+						<i class="fa fa-pencil-square-o"></i> <span class="menu-text">#{i18n['menu.label.processes']}</span>
+						<span class="arrow"></span>
+				</a>
+					<ul class="sub">
+						
+						<li id="menuEventsAssignProcess"><a
+							jsf:outcome="/pages/secured/processes/eventsAssign"> <span
+								class="sub-menu-text">#{i18n['menu.label.eventsAssign']}</span>
+						</a></li>
+						
+					</ul></li>
+			</ul>
+			<!-- /SIDEBAR MENU -->
+		</div>
+	</div>
+
+</ui:composition>
